@@ -7,31 +7,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import javax.sound.midi.Instrument;
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MidiChannel;
-import javax.sound.midi.MidiDevice;
 import javax.sound.midi.MidiEvent;
 import javax.sound.midi.MidiMessage;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
-import javax.sound.midi.Patch;
-import javax.sound.midi.Receiver;
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.midi.ShortMessage;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.Synthesizer;
 import javax.sound.midi.Track;
-import javax.sound.midi.Transmitter;
-import javax.sound.midi.VoiceStatus;
-import javax.sound.midi.MidiDevice.Info;
-
-import org.tritonus.share.midi.TDirectSynthesizer;
 
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.resource.LocalResourceManager;
@@ -84,14 +71,14 @@ public class MidiPart {
 		Sequence sequence = MidiSystem.getSequence(resource.openStream());
 		Track[] tracks = sequence.getTracks();
 		
-		/*try {
+		try {
 			Sequencer sequencer = MidiSystem.getSequencer();
 			sequencer.open();
 			sequencer.setSequence(sequence);
 			sequencer.start();
 		} catch (MidiUnavailableException e) {
 			e.printStackTrace();
-		}*/
+		}
 		
 		Long start = Long.MAX_VALUE;
 		Long end = Long.MIN_VALUE;
@@ -108,13 +95,10 @@ public class MidiPart {
 				MidiMessage message = midiEvent.getMessage();
 				if (message instanceof ShortMessage) {
 					ShortMessage m = (ShortMessage) message;
-	//				System.out.println("Channel: " + m.getChannel());
 					if (m.getCommand() == ShortMessage.NOTE_ON) {
-						//System.out.println("NOTE ON " + m.getData1() + ", " + m.getData2());
 						openNotes.put(m.getData1(), new Note(tick, null, m.getChannel(), m.getData1(), m.getData2()));
 					}
 					else if (m.getCommand() == ShortMessage.NOTE_OFF) {
-						//System.out.println("NOTE OFF " + m.getData1() + ", " + m.getData2());
 						Note note = openNotes.get(m.getData1());
 						note.end = tick;
 						allNotes.add(note);
@@ -151,15 +135,13 @@ public class MidiPart {
 
 		public MidiCanvas(Composite parent, int style, List<Note> notes) {
 			super(parent, style);
-			notes = notes.stream().filter((it) -> { return it.end < 80000; }).collect(Collectors.toList());
+			//notes = notes.stream().filter((it) -> { return it.end < 80000; }).collect(Collectors.toList());
 			this.notes = notes;
 			this.min = notes.stream().mapToInt(Note::getPitch).min().getAsInt();
 			this.max = notes.stream().mapToInt(Note::getPitch).max().getAsInt();
 			this.start = notes.stream().mapToLong(Note::getStart).min().getAsLong();
-			this.end = notes.stream().mapToLong(Note::getStart).max().getAsLong();
+			this.end = notes.stream().mapToLong(Note::getEnd).max().getAsLong();
 			
-			System.out.println(min + ", " + max + ", " + start + ", " + end);
-
 			resourceManager = new LocalResourceManager(JFaceResources.getResources(), this);
 			
 			addPaintListener(paintEvent -> {
@@ -175,21 +157,18 @@ public class MidiPart {
 		};
 
 		private void paintNotes(GC parent) {
-			double gridX = (getBounds().width * 1.d) / ((this.end - this.start) * 1.d);
-			double gridY = (getBounds().height * 1.d) / ((this.max + 5 - this.min) * 1.d);
+			double gridX = (getBounds().width * 1.d) / ((this.end + 1 - this.start) * 1.d);
+			double gridY = (getBounds().height * 1.d) / ((this.max + 1 - this.min) * 1.d);
 			
-			System.out.println(gridY);
-
 			Image image = new Image(parent.getDevice(), getBounds());
 			GC gc = new GC(image);
 			for (Note n : notes) {
 				gc.setBackground(getDisplay().getSystemColor(colors[n.channel % colors.length]));
 				gc.setAlpha(Math.max(10, Math.min(240, n.velocity)));
 				int x = (int) (gridX * (n.getStart() - start));
-				int y = getBounds().height - (int) (gridY * (n.getPitch() + 2 - min));
+				int y = getBounds().height - (int) (gridY * (n.getPitch() + 1 - min));
 				int w = (int) (gridX * (n.getEnd() - n.getStart()));
 				int h = (int) (gridY);
-				//System.out.println("" + x + ", " + y + ", " + w + ", " + h);
 				
 				gc.fillRoundRectangle(x-1, y-1, w+2, h+2, 4, 4);
 				gc.setForeground(getDisplay().getSystemColor(SWT.COLOR_WHITE));
