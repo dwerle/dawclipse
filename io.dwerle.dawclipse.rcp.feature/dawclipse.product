@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="dawclipse" uid="dawclipse" id="io.dwerle.dawclipse.rcp.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.3" useFeatures="true" includeLaunchers="true">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <programArgs>-clearPersistedState
+      </programArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
+   <splash
+      handlerType="interactive" />
+   <launcher>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+      <windows include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</windows>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="io.dwerle.dawclipse.rcp.feature"/>
+      <feature id="org.eclipse.e4.rcp"/>
+      <feature id="org.eclipse.emf.ecore"/>
+      <feature id="org.eclipse.emf.common"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
+      <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+   </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>
