@@ -11,15 +11,17 @@ import javax.inject.Inject;
 
 import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
 
-public class MainPart {
+public class TransportPart {
 	private BundleHelper bundleHelper;
 
 	@Inject
-	public MainPart(BundleHelper bundleHelper) {
+	public TransportPart(BundleHelper bundleHelper) {
 		this.bundleHelper = bundleHelper;
 	}
 
@@ -30,9 +32,25 @@ public class MainPart {
 	}
 
 	private void buildDisplay(Composite parent) {
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		layout.makeColumnsEqualWidth = true;
+		parent.setLayout(layout);
+		
+		GridData gridData = new GridData(SWT.CENTER, SWT.CENTER, false, false);
+		gridData.widthHint = 50;
+		
 		Label label = new Label(parent, SWT.NONE);
+		label.setLayoutData(gridData);
 		Label label2 = new Label(parent, SWT.NONE);
+		label2.setLayoutData(gridData);
+		
 		Scale scale = new Scale(parent, SWT.HORIZONTAL);
+		
+		gridData = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		gridData.horizontalSpan = 2;
+		scale.setLayoutData(gridData);
+		scale.pack();
 		scale.setMaximum(5000);
 		scale.setMinimum(1000);
 		scale.setSelection(4000);
@@ -42,7 +60,7 @@ public class MainPart {
 			label2.setText(Integer.toString(getBackend().getTransport().getSubBeat()));
 		});
 		scale.addSelectionListener(onSelection(e -> getBackend().getTransport().setInterval(scale.getSelection())));
-		parent.pack();
+		parent.getParent().pack();
 	}
 	
 	@PreDestroy

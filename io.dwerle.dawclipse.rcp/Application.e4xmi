@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
 <application:Application xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:application="http://www.eclipse.org/ui/2010/UIModel/application" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmi:id="_lrCcAKLkEeiOLaszojp4gQ" elementId="io.dwerle.dawclipse.rcp.application">
-  <children xsi:type="basic:TrimmedWindow" xmi:id="_oK-pMKLkEeiOLaszojp4gQ" elementId="io.dwerle.dawclipse.rcp.trimmedwindow.test" label="Test" x="20" y="20" width="400" height="400">
-    <children xsi:type="basic:Part" xmi:id="_7UwkMKLpEeiOLaszojp4gQ" elementId="io.dwerle.dawclipse.rcp.part.test" contributionURI="bundleclass://io.dwerle.dawclipse.rcp/io.dwerle.dawclipse.rcp.MainPart" label="Testing">
-      <toolbar xmi:id="_S77C8KMPEeij275Yx8RUTQ" elementId="io.dwerle.dawclipse.rcp.toolbar.0"/>
+  <children xsi:type="basic:TrimmedWindow" xmi:id="_oK-pMKLkEeiOLaszojp4gQ" elementId="io.dwerle.dawclipse.rcp.trimmedwindow.test" label="Test" width="400" height="400">
+    <children xsi:type="basic:PartSashContainer" xmi:id="_ahiKoKMpEeilIZlnrDDkbQ" elementId="io.dwerle.dawclipse.rcp.partsashcontainer.2">
+      <children xsi:type="basic:PartStack" xmi:id="_fbgKQKMpEeilIZlnrDDkbQ" elementId="io.dwerle.dawclipse.rcp.partstack.1">
+        <children xsi:type="basic:Part" xmi:id="_7UwkMKLpEeiOLaszojp4gQ" elementId="io.dwerle.dawclipse.rcp.part.test" contributionURI="bundleclass://io.dwerle.dawclipse.rcp/io.dwerle.dawclipse.rcp.TransportPart" label="Transport"/>
+      </children>
+      <children xsi:type="basic:PartStack" xmi:id="_erGBAKMpEeilIZlnrDDkbQ" elementId="io.dwerle.dawclipse.rcp.partstack.0">
+        <children xsi:type="basic:Part" xmi:id="_21iBMKMoEeilIZlnrDDkbQ" elementId="io.dwerle.dawclipse.rcp.part.midi" contributionURI="bundleclass://io.dwerle.dawclipse.rcp/io.dwerle.dawclipse.rcp.MidiPart" label="MIDI"/>
+      </children>
     </children>
   </children>
   <addons xmi:id="_lrCcAaLkEeiOLaszojp4gQ" elementId="org.eclipse.e4.core.commands.service" contributionURI="bundleclass://org.eclipse.e4.core.commands/org.eclipse.e4.core.commands.CommandServiceAddon"/>
