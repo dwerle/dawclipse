@@ -1,37 +1,35 @@
 package io.dwerle.dawclipse.rcp;
 
 import java.beans.PropertyChangeEvent;
-import java.util.Optional;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import org.eclipse.e4.core.contexts.IEclipseContext;
-import org.eclipse.e4.core.di.annotations.Creatable;
 import org.eclipse.swt.widgets.Display;
 
 import io.dwerle.dawclipse.rcp.backend.Backend;
 
-@Creatable
-@Singleton
 public final class BundleHelper {
 	private static ExecutorService executor = Executors.newCachedThreadPool();
-	private final Backend backend;
 	private static BundleHelper instance;
 	private boolean active = false; 
 	
-	@Inject
-	public BundleHelper(Backend backend) {
-		this.backend = backend;
-		BundleHelper.instance = this;
+	public BundleHelper() {
+		if (instance != null)
+			throw new AssertionError();
+		
 		active = true;
 	}
 	
+	public static BundleHelper getInstance() {
+		if (BundleHelper.instance == null)
+			BundleHelper.instance = new BundleHelper();
+		
+		return BundleHelper.instance;
+	}
+	
 	public static Backend getBackend() {
-		return instance.backend;
+		return Backend.getInstance();
 	}
 
 	public static void doDisplay(Runnable runnable) {
@@ -49,7 +47,7 @@ public final class BundleHelper {
 	public static void onDisplay(String property, Consumer<PropertyChangeEvent> doWhat) {
 		getBackend().pcs.addPropertyChangeListener(property,
 				e -> waitAnd(getBackend().getDelay(), () -> doDisplay(() -> {
-					if (instance.active)
+					if (getInstance().active)
 						doWhat.accept(e);
 				})));
 	}

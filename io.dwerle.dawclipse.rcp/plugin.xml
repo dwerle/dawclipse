@@ -17,4 +17,11 @@
          </property>
       </product>
    </extension>
+   <extension
+         point="org.eclipse.ui.splashHandlers">
+      <splashHandler
+            class="io.dwerle.dawclipse.rcp.splashHandlers.InteractiveSplashHandler"
+            id="io.dwerle.dawclipse.rcp.splashHandlers.interactive">
+      </splashHandler>
+   </extension>
 </plugin>

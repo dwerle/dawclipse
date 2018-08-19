@@ -5,8 +5,8 @@ Bundle-SymbolicName: io.dwerle.dawclipse.rcp.backend
 Bundle-Version: 1.0.2
 Require-Bundle: org.eclipse.osgi,
  org.eclipse.core.runtime,
- net.beadsproject.beads.osgi,
- org.eclipse.e4.core.di.annotations
+ org.eclipse.e4.core.di.annotations,
+ net.beadsproject.beads.osgi.main
 Automatic-Module-Name: io.dwerle.dawclipse.rcp.backend
 Export-Package: io.dwerle.dawclipse.rcp.backend
 Import-Package: javax.annotation,

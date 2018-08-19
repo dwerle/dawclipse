@@ -17,21 +17,34 @@ import net.beadsproject.beads.ugens.Static;
 
 import org.eclipse.e4.core.di.annotations.Creatable;
 
-@Creatable
-@Singleton
 public class Backend {
+	private static Backend instance;
+
 	public final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 	public AudioContext ac;
-
 	private Transport transport;
-
 	private Gain g;
-
 	public Integer mixer;
 
-	public Backend() {
+	private Backend() {
 		ac = new AudioContext();
+		if (Backend.instance != null)
+			throw new AssertionError();
+	}
+	
+	public static Backend getInstance() {
+		if (Backend.instance == null)
+			Backend.instance = new Backend();
+		
+		return Backend.instance;
+	}
+	
+	public static Backend createNewInstance() {
+		if (Backend.instance != null)
+			throw new AssertionError();
+		
+		return getInstance();
 	}
 	
 	public Transport getTransport() {

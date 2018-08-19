@@ -19,7 +19,9 @@ import net.beadsproject.beads.core.io.JavaSoundAudioIO;
 public class E4LifeCycle {
 
 	@PostContextCreate
-	void postContextCreate(IEclipseContext workbenchContext, Backend backend) {
+	void postContextCreate(IEclipseContext workbenchContext) {
+		Backend backend = Backend.createNewInstance();
+		
 		new MixerDialog((JavaSoundAudioIO) backend.ac.getAudioIO()).open();
 		backend.initialize();
 	}

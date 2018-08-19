@@ -7,9 +7,7 @@ import static io.dwerle.dawclipse.rcp.backend.BackendConstants.*;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import javax.inject.Inject;
 
-import org.eclipse.e4.core.contexts.IEclipseContext;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -18,16 +16,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Scale;
 
 public class TransportPart {
-	private BundleHelper bundleHelper;
-
-	@Inject
-	public TransportPart(BundleHelper bundleHelper) {
-		this.bundleHelper = bundleHelper;
+	public TransportPart() {
 	}
 
 	@PostConstruct
-	public void postConstruct(Composite parent, IEclipseContext context) {
-		context.getParent().set("frontend.shutdown", false);
+	public void postConstruct(Composite parent) {
 		buildDisplay(parent);
 	}
 
@@ -64,8 +57,8 @@ public class TransportPart {
 	}
 	
 	@PreDestroy
-	public void preDestroy(IEclipseContext context) {
-		bundleHelper.shutdown();
+	public void preDestroy() {
+		BundleHelper.getInstance().shutdown();
 		getBackend().shutdown();
 	}
 }

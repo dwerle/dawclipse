@@ -3,6 +3,7 @@
 
 <product name="dawclipse" uid="dawclipse" id="io.dwerle.dawclipse.rcp.product" application="org.eclipse.e4.ui.workbench.swt.E4Application" version="1.0.3" useFeatures="true" includeLaunchers="true">
 
+
    <configIni use="default">
    </configIni>
 
@@ -15,8 +16,6 @@
 
    <windowImages/>
 
-   <splash
-      handlerType="interactive" />
    <launcher>
       <win useIco="false">
          <bmp/>
